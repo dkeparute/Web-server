@@ -36,3 +36,5 @@ Po headeriu eina tuscia eilute VISADA
 
 -----------------------------------------------------------------------
 Tagas FORM turi atributa METHOD, kuris nusako metoda narsyklei
+------------------------------------------------------------------
+EVENT EMITERIS - objektas kuris tave infomruos jog ivyko kazkoks eventas, o informuos iskviesdamas tavo nurodyta funkcija
