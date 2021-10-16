@@ -44,6 +44,7 @@ async function handler(socket) {
     // 5. Perskaitau faila
     let res = "";
     try {
+      // NAUDOJANT FUNKCIJA STAT PATIKRINAM AR YRA REIKIAMAS FAILAS
       const stat = await fs.stat(f);
       if (stat.isFile()) {
         const response = await fs.readFile(f, {
@@ -53,8 +54,11 @@ async function handler(socket) {
         res += "HTTP/1.1 200 OK\r\n";
         res += "\r\n";
         res += response;
+        // CIA TIKRINAM su STAT AR TAI YRA DIREKTORIJA
+        //jeigu direktorija - tada turime atspausdinti viska kas ten yra (readdir), reiskias turime parasyti html patys / DINAMINIS HTML SUGENERAVIMAS
       } else if (stat.isDirectory()) {
         const files = await fs.readdir(f);
+        // Jeigu nesibaigia / sleshu
         resource += (!resource.endsWith("/")) ? "/" : "";
         res += "HTTP/1.1 200 OK\r\n";
         res += "\r\n";
@@ -87,7 +91,7 @@ async function handler(socket) {
     socket.write(res, "utf8");
   } finally {
     socket.end();
-    //8. VISDA PRIVALOMA UZDARYTI SOCKET
+    //8. VISADA PRIVALOMA UZDARYTI SOCKET
   }
 }
 
