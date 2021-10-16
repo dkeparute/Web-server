@@ -5,6 +5,7 @@ import * as fs from "fs/promises";
 const WEB = "web";
 const PORT = 8080;
 
+// CIA ATSAKO NARSYKLE SERVERIUI
 function readHeaders(socket) {
   return new Promise((resolve, reject) => {
     let res = "";
@@ -28,14 +29,19 @@ function readHeaders(socket) {
   });
 }
 
+// CIA ATSAKO SERVERIS NARSYKLEI
 async function handler(socket) {
   let data;
   try {
+    //1. SKAITOMI HEAEDERIAI
     data = await readHeaders(socket);
+    // 2. Pasiimu pirma eilute
     const lines = data.split("\r\n");
+    // 3. Pasiimu tik resurso pavadinima
     let [, resource] = lines[0].split(" ");
+    // 4. Susirandu failo pavadinima WEB faile
     const f = path.join(WEB, resource);
-
+    // 5. Perskaitau faila
     let res = "";
     try {
       const stat = await fs.stat(f);
@@ -43,6 +49,7 @@ async function handler(socket) {
         const response = await fs.readFile(f, {
           encoding: "utf8",
         });
+        //6. Jeigu toki faila radau siunsiu atsakyma 200 su jo turiniu
         res += "HTTP/1.1 200 OK\r\n";
         res += "\r\n";
         res += response;
@@ -63,6 +70,7 @@ async function handler(socket) {
         }
         res += "</ul></body></html>";
       } else {
+        //7. Jeigu tokio failo neradau siunsiu atsakyma 404
         res += "HTTP/1.1 400 Bad Request\r\n";
         res += "\r\n";
       }
@@ -79,6 +87,7 @@ async function handler(socket) {
     socket.write(res, "utf8");
   } finally {
     socket.end();
+    //8. VISDA PRIVALOMA UZDARYTI SOCKET
   }
 }
 

@@ -1,0 +1,38 @@
+SERVERIO KURIMO PAGRINDAS:
+
+import * as net from "net";
+ 
+function handler(socket) {
+ console.log("Kazkas prisijunge");
+ socket.end();
+}
+
+3. Kai tik kas kas prisijungia, iskvieciama funkcija kuri gauna parametra SOCKET - jis nurodo ip adresa iskur kas prisijunge (socketremoteAddress(id adresas), socket.remotePort(porto nr)) ir nurodo  i ka prisijunge (socket.localAddress, socket.localPort). 
+**Kitaip sakant, galima perskaityti adresatus is kur kas i ka atejo.
+
+SVARBU: VISADA SOCKET TURI BUTI UZDARYTAS
+ 
+const srv = net.createServer(handler);
+
+1. cia sukuriam serveri,ir kai tik kazkas kreipsis i serveri iskart iskvies programa;
+ 
+srv.listen(3000);
+
+2. cia pasakom jog klausysim 3000 porto
+console.log('Server started');
+
+**IP adresui taikome ipv4, bet jau populiareja ipv6
+
+------------------------------------------------------------------------
+HTTP PROTOKOLE LABAI SVARBU PIRMA EILUTE:
+
+HTTP protokole rasomas tiktai tekstas;
+
+Susideda is metodo pavadinimo(get, put, post, delete), resurso pavadinimo , protokolo versijos;
+
+Visos kitos eilutes yra 'headeriai(pavadinimas ir reiksme)', jie atskiriami \r\n;
+
+Po headeriu eina tuscia eilute VISADA
+
+-----------------------------------------------------------------------
+Tagas FORM turi atributa METHOD, kuris nusako metoda narsyklei
